@@ -56,8 +56,8 @@ int main(int argc, char* argv[]) {
     auto now = std::chrono::high_resolution_clock::now();
     spiXfer(h, buf_out, buf_in, bytes);
     auto transfer_end = std::chrono::high_resolution_clock::now();
-    if (i % 100 == 0) {
-      printf("count: %d\tread: ", i);
+    if (i % 1 == 0) {
+      printf("count: %d\tread from MISO: ", i);
       for (int i = 0; i < bytes; i++) {
         printf("%d ", buf_in[i]);
       }
