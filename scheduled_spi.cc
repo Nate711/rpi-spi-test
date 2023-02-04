@@ -31,12 +31,12 @@ int main(int argc, char* argv[]) {
   int i;
   int h;
   double start, diff, sps;
-  char buf[16384];
+  char buf_out[16384];
   char buf_in[16384];
 
   // Initialize the out buffer with some data
   for (int i = 0; i < bytes; i++) {
-    buf[i] = static_cast<uint8_t>(i);
+    buf_out[i] = static_cast<uint8_t>(i);
   }
 
   if (gpioInitialise() < 0) {
@@ -53,12 +53,17 @@ int main(int argc, char* argv[]) {
 
   double average_exchange_duration = 0.0;
   for (i = 0; i < loops; i++) {
-    if (i % 100 == 0) {
-      printf("count: %d\n", i);
-    }
     auto now = std::chrono::high_resolution_clock::now();
-    spiXfer(h, buf, buf_in, bytes);
+    spiXfer(h, buf_out, buf_in, bytes);
     auto transfer_end = std::chrono::high_resolution_clock::now();
+    if (i % 100 == 0) {
+      printf("count: %d\tread: ", i);
+      for (int i = 0; i < bytes; i++) {
+        printf("%d ", buf_in[i]);
+      }
+      printf("\n");
+    }
+
     average_exchange_duration +=
         std::chrono::duration_cast<std::chrono::nanoseconds>(transfer_end - now)
             .count() /
