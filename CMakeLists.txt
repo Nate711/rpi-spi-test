@@ -7,8 +7,5 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 find_package(gflags REQUIRED)
 
-add_executable(spi-test spi-test.cc)
-target_link_libraries(spi-test PUBLIC pigpio)
-
 add_executable(scheduled_spi scheduled_spi.cc)
 target_link_libraries(scheduled_spi PUBLIC pigpio gflags)
